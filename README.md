@@ -1,6 +1,6 @@
 # Agentic AI Graph App (Demonstration)
 
-**Agentic AI Strands** is an experimental graph-based AI application built using the [AWS Strands Agents SDK](https://github.com/strands-agents). It demonstrates how to construct autonomous, tool-using agentic AI, that allows automating certain operations (such as graph creation in this case). The ultimate aim of this project is to highlight agentic AI security risks i.e., agentic AI solutions can execute arbitrary code and to show that one cannot depend on LLM guardrails alone to secure it.
+**Agentic AI Strands App** is an experimental graph-based AI application built using the [AWS Strands Agents SDK](https://github.com/strands-agents). It demonstrates how to construct autonomous, tool-using agentic AI, that allows automating certain operations (such as graph creation in this case). The ultimate aim of this project is to highlight agentic AI security risks i.e., agentic AI solutions can execute arbitrary code and to show that one cannot depend on LLM guardrails alone to secure it.
 
 ## 🚀 Overview
 

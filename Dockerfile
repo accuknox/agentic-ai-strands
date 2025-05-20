@@ -1,12 +1,8 @@
 # Use Ubuntu as the base image
 FROM public.ecr.aws/docker/library/alpine:3.21.3
-#FROM public.ecr.aws/ubuntu/ubuntu:22.04
-
-# Set environment variables to avoid user interaction
-#ENV DEBIAN_FRONTEND=noninteractive
 
 # Update the package list and install basic packages
-RUN apk update && apk add --no-cache --update python3 && ln -sf python3 /usr/bin/python
+RUN apk update && apk add --no-cache --update python3 && ln -sf python3 /usr/bin/python && mkdir ~/.aws
 
 RUN python3 -m venv .venv && \
 	. .venv/bin/activate && \
@@ -20,7 +16,7 @@ RUN . .venv/bin/activate && \
 WORKDIR /app
 
 # Copy local files into the container (if any)
-COPY flask-app.py /app
+COPY src/flask-app.py /app
 COPY start-server.sh /app
 
 # Default command

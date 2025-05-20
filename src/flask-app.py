@@ -121,8 +121,9 @@ def agentProcess(prompt: dict, modelsel: str):
 def processGeneratedCode(intext: str):
     fenced_pattern = re.compile(r'```python(?:[\w+-]*)\n(.*?)```', re.DOTALL)
     code_blocks = fenced_pattern.findall(intext)[0]
+    updated_code = re.sub(r'\bfig\.show\(\)', r"fig.write_html('line_plot.html')", code_blocks)
     f = open('/tmp/agentai.py', 'w')
-    f.write(code_blocks)
+    f.write(updated_code)
     f.close()
 
 @app.route("/", methods=["GET", "POST"])

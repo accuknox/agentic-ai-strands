@@ -1,3 +1,5 @@
+.PHONY: all build push
+
 build:
 	docker buildx build -t nyrahul/agentic-ai-strands .
 

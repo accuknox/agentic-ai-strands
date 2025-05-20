@@ -18,7 +18,10 @@ This project showcases a specific agentic AI app that dynamically creates graphs
 docker run -v /home/rahul/.aws:/root/.aws -p 5000:5000 --rm -it --name rj-agentai nyrahul/agentic-ai-strands
 ```
 > You need to provide access to your AWS Bedrock account by sharing aws credentials.
+
 > Port 5000 is used to expose the Flask server
+
+<details><summary>Installing in manual mode</summary>
 
 ### Prerequisites for installing in manual mode
 
@@ -53,6 +56,8 @@ docker run -v /home/rahul/.aws:/root/.aws -p 5000:5000 --rm -it --name rj-agenta
    ```
 
    This script initializes and starts the agentic AI graph app server.
+
+</details>
 
 ## 🧪 Example Prompts
 

@@ -6,6 +6,8 @@
 
 This project showcases a specific agentic AI app that dynamically creates graphs from user prompt.
 
+![](res/output.gif)
+
 ## 🧠 Architecture
 
 ![](res/defarch.png)

@@ -21,6 +21,19 @@ docker run -v /home/rahul/.aws:/root/.aws -p 5000:5000 --rm -it --name rj-agenta
 
 > Port 5000 is used to expose the Flask server
 
+Expected Output:
+```
+┌──(.venv)─(rahul㉿kali)-[~/agentic-ai-strands]
+└─$ docker run -v /home/rahul/.aws:/root/.aws -p 5000:5000 --rm -it --name rj-agentai nyrahul/agentic-ai-strands
+ * Serving Flask app 'flask-app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+Press CTRL+C to quit
+```
+
 <details><summary>Installing in manual mode</summary>
 
 ### Prerequisites for installing in manual mode

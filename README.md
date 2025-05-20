@@ -8,7 +8,7 @@ This project showcases a specific agentic AI app that dynamically creates graphs
 
 ## 🧠 Architecture
 
-[TODO] Add diagram
+![](res/defarch.png)
 
 ## 🛠️ Getting Started
 

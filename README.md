@@ -48,7 +48,7 @@ kubectl create ns agentic-ai --dry-run=client -o yaml | kubectl apply -f - && \
 ```
 2. Apply k8s manifest
 ```bash
-kubectl apply -f deployment/k8s/agentic-ai-strands-deployment.yaml
+kubectl apply -f https://github.com/nyrahul/agentic-ai-strands/raw/refs/heads/main/deployment/k8s/agentic-ai-strands-deployment.yaml
 ```
 3. Port-forward the agentic-ai-strands service
 ```bash

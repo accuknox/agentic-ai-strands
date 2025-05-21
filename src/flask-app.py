@@ -20,7 +20,7 @@ template_html = """
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🤖 Agentic AI Demo</title>
+    <title>🤖 Dynamic Dashboards with Agentic AI</title>
     <style>
         body {
             font-family: monospace;
@@ -28,8 +28,8 @@ template_html = """
             padding: 20px;
         }
         iframe {
-            width: 40%;
-            height: 500px;
+            width: 80%;
+            height: 1200px;
             border: 2px solid #ccc;
             border-radius: 8px;
         }
@@ -45,7 +45,7 @@ template_html = """
 </head>
 <body>
 
-<h2>Agentic AI Demo</h2>
+<h2>Dynamic Dashboards: Agentic AI Demo</h2>
 <form method="POST">
   <div class="form-row">
       <label for="textInput">Input Prompt:</label>

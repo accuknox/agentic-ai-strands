@@ -2,6 +2,8 @@
 
 **Agentic AI Strands App** is an experimental graph-based AI application built using the [AWS Strands Agents SDK](https://github.com/strands-agents). It demonstrates how to construct autonomous, tool-using agentic AI, that allows automating certain operations (such as graph creation in this case). The ultimate aim of this project is to highlight agentic AI security risks i.e., agentic AI solutions can execute arbitrary code and to show that one cannot depend on LLM guardrails alone to secure it.
 
+This [demo was presented in CNCF Native Live](https://www.youtube.com/watch?v=j90WdM123R0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D) on 20th May 2025.
+
 ## 🚀 Overview
 
 This project showcases a specific agentic AI app that dynamically creates graphs from user prompt.
@@ -124,6 +126,6 @@ TODO
 
 ## 📚 Resources
 
-- [Strands Agents SDK Documentation](https://github.com/strands-agents)
-- [KubeArmor](https://kubearmor.io/)
-- [AWS Bedrock Documentation](https://docs.aws.amazon.com/bedrock/)
+- [Agentic AI - Threats and Mitigations from OWASP](https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/)
+- [Strands Agents SDK Documentation](https://github.com/strands-agents): Agentic AI server development framework from AWS
+- [KubeArmor](https://kubearmor.io/): Agentic AI Sandboxing solution leveraged in this demo.

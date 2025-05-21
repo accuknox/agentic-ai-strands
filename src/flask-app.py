@@ -49,7 +49,7 @@ template_html = """
 <form method="POST">
   <div class="form-row">
       <label for="textInput">Input Prompt:</label>
-      <textarea name="input_string" rows="3" cols="60" placeholder="type prompt here..." required></textarea><br><br>
+      <textarea name="input_string" rows="5" cols="120" placeholder="type prompt here..." required></textarea><br><br>
   </div>
 
   <div class="form-row">

@@ -126,6 +126,7 @@ TODO
 
 ## 📚 Resources
 
+- [Slide deck used for CNCF Webinar/Demo](https://docs.google.com/presentation/d/1HdpnmRO1Qnnt7vO1521KlkgCBCNMpMU0imb7G4CDWNA/edit?usp=sharing)
 - [Agentic AI - Threats and Mitigations from OWASP](https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/)
 - [Strands Agents SDK Documentation](https://github.com/strands-agents): Agentic AI server development framework from AWS
 - [KubeArmor](https://kubearmor.io/): Agentic AI Sandboxing solution leveraged in this demo.

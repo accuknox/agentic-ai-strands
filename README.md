@@ -129,3 +129,4 @@ TODO
 - [Agentic AI - Threats and Mitigations from OWASP](https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/)
 - [Strands Agents SDK Documentation](https://github.com/strands-agents): Agentic AI server development framework from AWS
 - [KubeArmor](https://kubearmor.io/): Agentic AI Sandboxing solution leveraged in this demo.
+- [MCP Server Store](https://mcp.so/)

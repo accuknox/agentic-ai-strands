@@ -1,7 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: agentic-ai
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: agentic-ai-strands
+  namespace: agentic-ai
   labels:
     app: agentic-ai-strands
 spec:
@@ -19,12 +26,21 @@ spec:
         image: nyrahul/agentic-ai-strands:latest
         ports:
         - containerPort: 5000
+        volumeMounts:
+          - mountPath: "/root/.aws"
+            name: credentials
+            readOnly: true
+      volumes:
+        - name: credentials
+          secret:
+            secretName: agentic-ai-creds
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: agentic-ai-strands-service
+  namespace: agentic-ai
 spec:
   selector:
     app: agentic-ai-strands

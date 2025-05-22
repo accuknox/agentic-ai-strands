@@ -20,12 +20,22 @@ template_html = """
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🤖 Dynamic Dashboards with Agentic AI</title>
+    <title>🤖 Agentic AI Demo Lab</title>
     <style>
         body {
-            font-family: monospace;
+            font-family: Arial, sans-serif;
             background-color: #f9f9f9;
+            padding: 0px;
+        }
+        .banner {
+            background-color: #222; /* Dark background */
+            color: #f1f1f1;          /* Light text */
             padding: 20px;
+            text-align: center;
+        }
+        .banner h1 {
+            margin: 5px 0;
+            font-size: 1.5em;
         }
         iframe {
             width: 80%;
@@ -41,35 +51,78 @@ template_html = """
             margin-top: 10px;
             white-space: pre-wrap;
         }
+        .banner p {
+            margin: 0;
+            font-size: 1em;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .resizable-iframe {
+            resize: both;
+            overflow: auto;
+            border: 2px solid #aaa;
+            width: 80%;
+            height: 600px;
+            margin-top: 30px;
+        }
+
+        label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        input[type="text"], select {
+            width: 300px;
+            padding: 8px;
+            font-size: 1em;
+        }
     </style>
 </head>
 <body>
 
-<h2>Dynamic Dashboards: Agentic AI Demo</h2>
-<form method="POST">
-  <div class="form-row">
+<div class="banner">
+    <h1>Dynamic Dashboards App</h1>
+    <p>Powered by Agentic AI</p>
+</div>
+
+<div class="content">
+<form method="POST" id="inputForm">
+
+  <div class="form-group">
       <label for="textInput">Input Prompt:</label>
-      <textarea name="input_string" rows="5" cols="120" placeholder="type prompt here..." required></textarea><br><br>
+      <textarea id="inprompt" name="input_string" rows="5" cols="120" placeholder="type prompt here..." required></textarea><br><br>
   </div>
 
-  <div class="form-row">
+  <div class="form-group">
       <label>Select LLM:</label>
-      <select name="model_select">
+      <select id="modelsel" name="model_select">
         <option value="us.deepseek.r1-v1:0">Deep Seek r1-v1</option>
         <option value="us.anthropic.claude-3-7-sonnet-20250219-v1:0">Anthropic Claude 3.7 Sonnet</option>
       </select>
   </div><br>
 
+    <div class="form-group">
+      <label for="textInput">AWS Bedrock Region</label>
+      <input type="text" id="regionsel" name="regionsel" value="us-east-1">
+    </div>
+
   <input type="submit" value="Submit">
 </form>
-
-{% if user_input %}
-<h2>User Input Prompt:</h2>
-<pre>{{ user_input }}</pre>
-{% endif %}
+</div>
 
 {% if graphfn %}
+<div class="resizable-iframe">
 <iframe src="{{ graphfn }}" title="Embedded HTML Page"></iframe>
+</div>
 {% endif %}
 
 {% if output %}
@@ -101,15 +154,43 @@ window.onload = function () {
 };
 
 </script>
+
+  <script>
+    // Centralized field name definitions
+    const fields = {
+      textInput: 'inprompt',
+      dropdown: 'modelsel',
+      textInput2: 'regionsel'
+    };
+
+    // Load stored values
+    window.onload = function () {
+      for (let key in fields) {
+        const savedValue = localStorage.getItem(fields[key]);
+        if (savedValue) {
+          document.getElementById(fields[key]).value = savedValue;
+        }
+      }
+    };
+
+    // Save values on form submit
+    document.getElementById('inputForm').addEventListener('submit', function (event) {
+      for (let key in fields) {
+        const value = document.getElementById(fields[key]).value;
+        localStorage.setItem(fields[key], value);
+      }
+    });
+  </script>
+
 </body>
 </html>
 """
 
-def agentProcess(prompt: dict, modelsel: str):
+def agentProcess(prompt: dict, modelsel: str, regionsel: str):
     # Create a BedrockModel
     bedrock_model = BedrockModel(
         model_id=modelsel,
-        region_name='us-east-1',
+        region_name=regionsel,
         temperature=0.3,
     )
     # Create an agent with the callback handler
@@ -136,11 +217,12 @@ def index():
         with redirect_stdout(buffer):
            user_input = request.form["input_string"]
            modelsel = request.form.get('model_select', '')
-           result = agentProcess(prompt=user_input, modelsel=modelsel)
+           regionsel = request.form.get('regionsel', '')
+           result = agentProcess(prompt=user_input, modelsel=modelsel, regionsel=regionsel)
            processed = result.message
         output = buffer.getvalue()
         processGeneratedCode(intext=output)
-        return render_template_string(template_html, processed=processed, output=output, user_input=user_input, graphfn="/graph")
+        return render_template_string(template_html, processed=processed, output=output, graphfn="/graph")
 
     return render_template_string(template_html, processed=None, output=None, user_input=None, graphfn=None)
 

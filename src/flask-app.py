@@ -57,11 +57,11 @@ template_html = """
         }
 
         .content {
-            padding: 20px;
+            padding: 10px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
 
         .resizable-iframe {
@@ -85,6 +85,21 @@ template_html = """
             padding: 8px;
             font-size: 1em;
         }
+
+        textarea {
+            font-family: roboto;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            width: 200px;       /* Optional: fixed width */
+            height: 50px;       /* Optional: fixed height */
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
@@ -115,7 +130,8 @@ template_html = """
       <input type="text" id="regionsel" name="regionsel" value="us-east-1">
     </div>
 
-  <input type="submit" value="Submit">
+  <br>
+  <button type="submit">Submit</button>
 </form>
 </div>
 

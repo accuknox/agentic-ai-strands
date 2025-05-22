@@ -144,10 +144,10 @@ TODO
 
 ## 🤔 FAQs
 
-### Getting connection error on submit
+### ❓ Getting connection error on submit
 You need to enable AWS Bedrock Model Access for the given region. For e.g., for AWS Bedrock US-East-1 region you can go [here](https://us-east-1.console.aws.amazon.com/bedrock/home?region=us-east-1#/modelaccess).
 
-### Trying to use docker image on my macbook and it is not working
+### ❓ Trying to use docker image on my macbook and it is not working
 The image currently is a amd64 only image and does not work on arm ... Most likely you macbook is a arm device. This app can be easily ported to work on ARM but currently it is not handled.
 
 ## 📚 Resources

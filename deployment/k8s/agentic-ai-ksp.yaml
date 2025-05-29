@@ -1,0 +1,44 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: agentic-ai-zerotrust
+  namespace: agentic-ai
+spec:
+  action: Allow
+  file:
+    matchDirectories:
+    - dir: /
+      recursive: true
+    - action: Block
+      dir: /root/.aws/
+      recursive: true
+    - dir: /root/.aws/
+      fromSource:
+      - path: /usr/bin/python3.12
+      recursive: true
+  network:
+    matchProtocols:
+    - fromSource:
+      - path: /usr/bin/python3.12
+      protocol: icmp
+    - fromSource:
+      - path: /usr/bin/python3.12
+      protocol: raw
+    - fromSource:
+      - path: /usr/bin/python3.12
+      protocol: tcp
+    - fromSource:
+      - path: /usr/bin/python3.12
+      protocol: udp
+  process:
+    matchPaths:
+    - execname: containerd-shim-runc-v2
+    - path: /.venv/bin/python
+    - path: /app/start-server.sh
+    - path: /bin/busybox
+    - path: /bin/sh
+    - path: /usr/bin/python3.12
+  selector:
+    matchLabels:
+      app: agentic-ai-strands
+  severity: 1

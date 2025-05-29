@@ -7,10 +7,14 @@ RUN apk update && apk add --no-cache --update python3 && ln -sf python3 /usr/bin
 RUN python3 -m venv .venv && \
 	. .venv/bin/activate && \
 	python3 -m ensurepip && \
-	pip3 install --no-cache --upgrade pip setuptools
+	pip3 install --no-cache --upgrade setuptools strands-agents strands-agents-tools flask
 
-RUN . .venv/bin/activate && \
-	pip install --no-cache --upgrade strands-agents strands-agents-tools flask plotly pandas
+RUN cp /usr/bin/python3.12 /usr/bin/sandbox_python3.12
+
+RUN sandbox_python3.12 -m venv sandbox && \
+	. sandbox/bin/activate && \
+	sandbox_python3.12 -m ensurepip && \
+	pip3 install --no-cache --upgrade setuptools plotly pandas
 
 # Set working directory
 WORKDIR /app

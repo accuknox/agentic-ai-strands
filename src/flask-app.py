@@ -244,7 +244,7 @@ def index():
 
 @app.route("/graph", methods=["GET"])
 def server_graph():
-    os.system("python -u /tmp/agentai.py")
+    os.system(". /sandbox/bin/activate && sandbox_python3.12 -u /tmp/agentai.py")
     list_of_files = glob.glob('./*.html') # * means all if need specific format then *.csv
     if not list_of_files:
         return Response("No graph html generated. Please prompt to add an html file...", mimetype='text/html')

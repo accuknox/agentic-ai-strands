@@ -16,7 +16,25 @@ This project showcases a specific agentic AI app that dynamically creates graphs
 
 ## 🛠️ Getting Started
 
-### Quickstart using Docker Image
+### Quickstart using K8S
+
+1. Create a k8s secret from your ~/.aws/credentials file containing access to the AWS Bedrock instance.
+```bash
+kubectl create ns agentic-ai --dry-run=client -o yaml | kubectl apply -f - && \
+	kubectl delete secret -n agentic-ai agentic-ai-creds --ignore-not-found && \
+	kubectl create secret -n agentic-ai generic agentic-ai-creds --from-file ~/.aws/credentials
+```
+2. Apply k8s manifest
+```bash
+kubectl apply -f https://github.com/nyrahul/agentic-ai-strands/raw/refs/heads/main/deployment/k8s/agentic-ai-strands-deployment.yaml
+```
+3. Port-forward the agentic-ai-strands service
+```bash
+kubectl port-forward -n agentic-ai --address 0.0.0.0 svc/agentic-ai-strands-service 5000:80
+```
+4. Access the app from the forwarded address.
+
+<details><summary>Quickstart using Docker Image</summary>
 
 ```bash
 docker run -v /home/rahul/.aws:/root/.aws -p 5000:5000 --rm -it --name rj-agentai nyrahul/agentic-ai-strands
@@ -38,23 +56,7 @@ WARNING: This is a development server. Do not use it in a production deployment.
 Press CTRL+C to quit
 ```
 
-### Quickstart using k8s
-
-1. Create a k8s secret from your ~/.aws/credentials file containing access to the AWS Bedrock instance.
-```bash
-kubectl create ns agentic-ai --dry-run=client -o yaml | kubectl apply -f - && \
-	kubectl delete secret -n agentic-ai agentic-ai-creds --ignore-not-found && \
-	kubectl create secret -n agentic-ai generic agentic-ai-creds --from-file ~/.aws/credentials
-```
-2. Apply k8s manifest
-```bash
-kubectl apply -f https://github.com/nyrahul/agentic-ai-strands/raw/refs/heads/main/deployment/k8s/agentic-ai-strands-deployment.yaml
-```
-3. Port-forward the agentic-ai-strands service
-```bash
-kubectl port-forward -n agentic-ai --address 0.0.0.0 svc/agentic-ai-strands-service 5000:80
-```
-4. Access the app from the forwarded address.
+</details>
 
 <details><summary>Installing in manual mode</summary>
 

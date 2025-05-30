@@ -37,7 +37,9 @@ spec:
     - path: /app/start-server.sh
     - path: /bin/busybox
     - path: /bin/sh
+    - path: /sandbox/bin/sandbox_python3.12
     - path: /usr/bin/python3.12
+    - path: /usr/bin/sandbox_python3.12
   selector:
     matchLabels:
       app: agentic-ai-strands

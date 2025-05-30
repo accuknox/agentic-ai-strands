@@ -34,7 +34,7 @@ kubectl port-forward -n agentic-ai --address 0.0.0.0 svc/agentic-ai-strands-serv
 ```
 4. Access the app from the forwarded address.
 
-<details><summary>Quickstart using Docker Image</summary>
+<details><summary><h2>Quickstart using Docker Image</h2></summary>
 
 ```bash
 docker run -v /home/rahul/.aws:/root/.aws -p 5000:5000 --rm -it --name rj-agentai nyrahul/agentic-ai-strands
@@ -58,7 +58,7 @@ Press CTRL+C to quit
 
 </details>
 
-<details><summary>Installing in manual mode</summary>
+<details><summary><h2>Installing in manual mode</h2></summary>
 
 ### Prerequisites for installing in manual mode
 

@@ -1,7 +1,7 @@
 import logging
 from strands import Agent
 from strands.models import BedrockModel
-from flask import Flask, request, render_template_string, Response
+from flask import Flask, request, render_template_string, Response,requests
 import io
 import os
 import sys
@@ -223,6 +223,18 @@ def processGeneratedCode(intext: str):
     f.write(updated_code)
     f.close()
 
+
+## Onboard This Endpoint to Accuknox "Prompt Firewall" 
+@app.route("/agent-query", methods=["POST"])
+def agent_query():
+    data = request.get_json()
+    prompt = data.get("prompt")
+    modelsel = data.get("model_select")
+    regionsel = data.get("regionsel")
+    result = agentProcess(prompt=prompt, modelsel=modelsel, regionsel=regionsel)
+    return result
+
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     processed = None
@@ -234,7 +246,15 @@ def index():
            user_input = request.form["input_string"]
            modelsel = request.form.get('model_select', '')
            regionsel = request.form.get('regionsel', '')
-           result = agentProcess(prompt=user_input, modelsel=modelsel, regionsel=regionsel)
+           url = "https://cwpp.dev.accuknox.com/llm-defence/application-query"
+           headers = {
+            "Authorization": "Bearer <Enter the generated token from CURL>",
+            "Content-Type": "application/json",
+            "User": "<ENTER USER INFO>",
+            "Secret-Token": "<ENTER your application SECRET TOKEN>"
+            }
+           payload={"prompt": user_input, "model_select": modelsel, "regionsel": regionsel}
+           result = requests.post(url, headers=headers, json=payload)
            processed = result.message
         output = buffer.getvalue()
         processGeneratedCode(intext=output)

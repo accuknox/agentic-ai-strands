@@ -7,7 +7,8 @@ RUN apk update && apk add --no-cache --update python3 && ln -sf python3 /usr/bin
 RUN python3 -m venv .venv && \
 	. .venv/bin/activate && \
 	python3 -m ensurepip && \
-	pip3 install --no-cache --upgrade setuptools strands-agents strands-agents-tools flask
+	pip3 install --no-cache --upgrade setuptools strands-agents strands-agents-tools flask boto3 && \
+	pip3 install --no-cache --upgrade 'strands-agents[openai]'
 
 RUN cp /usr/bin/python3.12 /usr/bin/sandbox_python3.12
 

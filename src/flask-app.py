@@ -1,6 +1,8 @@
 import logging
+import boto3
 from strands import Agent
 from strands.models import BedrockModel
+from strands.models.openai import OpenAIModel
 from flask import Flask, request, render_template_string, Response
 import io
 import os
@@ -10,7 +12,7 @@ import glob
 from contextlib import redirect_stdout
 from inspect import signature # Needed to inspect pytho parameter types
 
-logger = logging.getLogger("my_agent")
+logger = logging.getLogger("rjAIagent")
 
 app = Flask(__name__, static_url_path='')
 
@@ -105,7 +107,7 @@ template_html = """
 <body>
 
 <div class="banner">
-    <h1>Dynamic Dashboards App</h1>
+    <h1>Dynamic Dashboards App (AccuKnox)</h1>
     <p>Powered by Agentic AI</p>
 </div>
 
@@ -122,12 +124,14 @@ template_html = """
       <select id="modelsel" name="model_select">
         <option value="us.deepseek.r1-v1:0">Deep Seek r1-v1</option>
         <option value="us.anthropic.claude-3-7-sonnet-20250219-v1:0">Anthropic Claude 3.7 Sonnet</option>
+        <option value="gpt-4o">OpenAI GPT 4o</option>
       </select>
   </div><br>
 
     <div class="form-group">
-      <label for="textInput">AWS Bedrock Region</label>
-      <input type="text" id="regionsel" name="regionsel" value="us-east-1">
+      <label for="textInput">Credentials</label>
+      <textarea hidden="" id="creds" name="creds" rows="5" cols="120" placeholder="aws_access_key_id = XXX\naws_secret_access_key = YYY\nregion = us-east-1" required></textarea><br><br>
+      <input type="checkbox" onclick="myFunction()">Show Credentials
     </div>
 
   <br>
@@ -154,6 +158,16 @@ template_html = """
 <div id="prettyOutput"></div>
 {% endif %}
 
+<script>
+function myFunction() {
+  var x = document.getElementById("creds");
+  if (x.hasAttribute("hidden")) {
+    x.removeAttribute("hidden");
+  } else {
+    x.setAttribute("hidden", "");
+  }
+}
+</script>
 <script src="https://cdn.jsdelivr.net/npm/json5@2.2.3/dist/index.min.js"></script>
 <script>
 window.onload = function () {
@@ -176,7 +190,7 @@ window.onload = function () {
     const fields = {
       textInput: 'inprompt',
       dropdown: 'modelsel',
-      textInput2: 'regionsel'
+      textInput2: 'creds'
     };
 
     // Load stored values
@@ -202,16 +216,45 @@ window.onload = function () {
 </html>
 """
 
-def agentProcess(prompt: dict, modelsel: str, regionsel: str):
-    # Create a BedrockModel
-    bedrock_model = BedrockModel(
-        model_id=modelsel,
-        region_name=regionsel,
-        temperature=0.3,
-    )
-    # Create an agent with the callback handler
+def text_to_dict(multiline_text, delimiter="="):
+    result = {}
+    lines = multiline_text.strip().split("\n")
+    for line in lines:
+        if delimiter in line:
+            key, value = line.split(delimiter, 1)
+            result[key.strip()] = value.strip()
+    return result
+
+def agentProcess(prompt: dict, modelsel: str, creds: str):
+    temperature=0.3
+    cred_dict = text_to_dict(creds)
+    if "aws_access" in creds:
+        # Create a BedrockModel
+        session = boto3.Session(
+            aws_access_key_id=cred_dict['aws_access_key_id'],
+            aws_secret_access_key=cred_dict['aws_secret_access_key'],
+            region_name=cred_dict['region'],
+        )
+        amodel = BedrockModel(
+            model_id=modelsel,
+            temperature=temperature,
+            boto_session=session,
+        )
+    else:
+        amodel = OpenAIModel(
+            client_args={
+                "api_key": cred_dict['openai_key'],
+            },
+            # **model_config
+            model_id="gpt-4o",
+            params={
+                "max_tokens": 1000,
+                "temperature": temperature,
+            }
+        )
+    # Start agent
     agent = Agent(
-        model=bedrock_model
+        model=amodel
     )
     return agent(prompt)
 
@@ -233,8 +276,8 @@ def index():
         with redirect_stdout(buffer):
            user_input = request.form["input_string"]
            modelsel = request.form.get('model_select', '')
-           regionsel = request.form.get('regionsel', '')
-           result = agentProcess(prompt=user_input, modelsel=modelsel, regionsel=regionsel)
+           creds = request.form.get('creds', '')
+           result = agentProcess(prompt=user_input, modelsel=modelsel, creds=creds)
            processed = result.message
         output = buffer.getvalue()
         processGeneratedCode(intext=output)
@@ -255,5 +298,5 @@ def server_graph():
     return Response(html_content, mimetype='text/html')
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', use_reloader=False)
+    app.run(debug=True, host='0.0.0.0', use_reloader=True)
 

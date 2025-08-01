@@ -3,3 +3,4 @@ strands-agents-tools>=0.1.0
 flask
 plotly
 pandas
+boto3

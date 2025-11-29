@@ -4,6 +4,8 @@
 
 This [demo was presented in CNCF Native Live](https://www.youtube.com/watch?v=j90WdM123R0&ab_channel=CNCF%5BCloudNativeComputingFoundation%5D) on 20th May 2025.
 
+![](res/arch-ai-agent.png)
+
 ## 🚀 Overview
 
 This project showcases a specific agentic AI app that dynamically creates graphs from user prompt.
